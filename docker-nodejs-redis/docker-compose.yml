@@ -1,0 +1,33 @@
+# Creating a Docker compose file to run redis and nodejs app
+
+version: '3.9'
+
+services:
+  # Redis service
+  redis-server:
+    restart: always
+    image: 'redis:latest'
+    volumes:
+      - redis-data:/data
+    ports:
+      - '6379:6379'
+
+  # Nodejs app service
+  node-app:
+    build: .
+    ports:
+      - '4001:3000'
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - redis-server
+
+volumes:
+  redis-data:
+# Running the docker compose file
+# docker compose up
+
+# Running the docker compose file with new image
+# docker compose up --build
+
